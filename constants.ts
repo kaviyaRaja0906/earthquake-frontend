@@ -1,0 +1,1 @@
+export const API_URL = "https://earthquake-api.onrender.com";
