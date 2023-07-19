@@ -32,39 +32,11 @@ function Earthquake() {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const dataStored = localStorage.getItem('dataStored');
-        if (!dataStored) {
-          const response = await axios.get('http://localhost:5000/getData');
-          const data = response.data;
-
-          console.log(data);
-          const features = data.features;
-          const storeDataResponse = await axios.post('http://localhost:5000/storeData', {
-            features,
-          });
-
-          console.log(storeDataResponse);
-
-          localStorage.setItem('dataStored', 'true');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-
-  }, []);
-
-  useEffect(() => {
     const fetchEarthquakeData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/earthquakes');
+        const response = await axios.get('https://earthquake-apis.onrender.com/earthquakes');
         const data = response.data;
         setEarthQuakeData(data);
-
         const uniqueMagnitudes = [...new Set(data.map(quake => quake.properties.magnitude))];
         setMagnitudes(uniqueMagnitudes);
       } catch (error) {
@@ -203,7 +175,7 @@ function Earthquake() {
       >
         <Popup>
           <h6 className="popup-txt">
-            Earthquake recorded on {getMonth(quake.properties.dateTime)} {getDate(quake.properties.dateTime)}, {getYear(quake.properties.dateTime)}, had a depth of {quake.properties.depth} and magnitude of {quake.properties.magnitude} in {quake.properties.region}
+            Earthquake recorded on {getMonth(quake.properties.DateTime)} {getDate(quake.properties.DateTime)}, {getYear(quake.properties.Date)}, had a depth of {quake.properties.depth} km and magnitude of {quake.properties.magnitude} in {quake.properties.region}
           </h6>
         </Popup>
       </Marker>
